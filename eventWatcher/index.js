@@ -18,6 +18,8 @@ module.exports = async (context, req) => {
     for (const event in events) {
         await saveToTable(events[event])
         if (events[event].country != "US") {
+            context.log("not from us")
+            context.log(events[event])
             await alertInternationalLogins(events[event])
         }
     }
