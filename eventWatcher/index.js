@@ -17,7 +17,7 @@ module.exports = async (context, req) => {
     const events = await response.json()
     for (const event in events) {
         await saveToTable(events[event])
-        if ((events[event].country != "US" && events[event].country != "null")) {
+        if ((events[event].country != null && events[event].country != "US")) {
             await alertInternationalLogins(events[event])
         }
     }
