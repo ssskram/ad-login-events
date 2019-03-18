@@ -1,0 +1,14 @@
+{
+  "name": "ad-login-events",
+  "version": "1.0.0",
+  "dependencies": {
+    "fs": "0.0.1-security",
+    "node-fetch": "^2.3.0"
+  },
+  "engines": {
+    "node": "8.11.1"
+  },
+  "scripts": {
+    "production": "node deploy/production.js"
+  }
+}

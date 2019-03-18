@@ -1,0 +1,12 @@
+# secrets
+.env
+
+# deployment scripts
+deploy
+local.settings.json
+
+# dev environment
+extensions.csproj
+bin
+obj
+local.settings.json
