@@ -1,5 +1,5 @@
 {
-  "name": "ad-login-events",
+  "name": "adlogin",
   "version": "1.0.0",
   "dependencies": {
     "fs": "0.0.1-security",

@@ -1,3 +1,4 @@
+
 const fetch = require('node-fetch')
 global.Headers = fetch.Headers
 
@@ -13,6 +14,7 @@ module.exports = async (context, req) => {
 
     const events = await response.json()
     for (const event in events) {
+        console.log(event)
         await saveToTable(event)
     }
 
@@ -20,6 +22,7 @@ module.exports = async (context, req) => {
 }
 
 const saveToTable = async (event) => {
+    
     await fetch("https://az-table.azurewebsites.us/activeDirectory/newEvent", {
         method: 'post',
         headers: new Headers({
