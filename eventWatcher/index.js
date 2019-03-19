@@ -17,6 +17,7 @@ module.exports = async (context, req) => {
     })
 
     const events = await response.json()
+    context.log(events.length)
     for (const event in events) {
         await saveToTable(events[event])
         if ((events[event].country != null && events[event].country != "US")) {
@@ -39,12 +40,15 @@ module.exports = async (context, req) => {
             latitude: event.latitude,
             longitude: event.longitude
         }
-        await tableService.insertOrReplaceEntity('adEvents', entity, function (error, result, response) {
-            if (error) {
-                context.log(error)
-            } else {
-                context.log('success!')
-            }
+        await new Promise(async function (resolve, reject) {
+            await tableService.insertOrReplaceEntity('adEvents', entity, (error, result, response) => {
+                if (!error) {
+                    resolve(result)
+                } else {
+                    console.log(error)
+                    reject(error)
+                }
+            })
         })
     }
 
