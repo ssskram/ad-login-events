@@ -41,8 +41,10 @@ module.exports = async (context, req) => {
         }
         await tableService.insertOrReplaceEntity('adEvents', entity, function (error, result, response) {
             if (error) {
-                console.log(error)
-            } else return
+                context.log(error)
+            } else {
+                context.log('success!')
+            }
         })
     }
 
