@@ -1,6 +1,8 @@
 
 const fetch = require('node-fetch')
 const moment = require('moment')
+const azure = require('azure-storage')
+const tableService = azure.createTableService()
 const tz = require('moment-timezone')
 global.Headers = fetch.Headers
 
@@ -23,16 +25,28 @@ module.exports = async (context, req) => {
     }
 
     async function saveToTable(event) {
-        await fetch("https://az-table.azurewebsites.us/activeDirectory/newEvent", {
-            method: 'post',
-            headers: new Headers({
-                'Authorization': 'Bearer ' + process.env.TABLE,
-                'Content-Type': 'application/json'
-            }),
-            body: JSON.stringify(event)
-        })
-        .then(res => context.log(res.status))
-        return
+        const entGen = azure.TableUtilities.entityGenerator
+        const entity = {
+            PartitionKey: entGen.String(event.userName),
+            RowKey: entGen.String(event.id),
+            eventTime: event.time,
+            userEmail: event.userEmail,
+            appName: event.appName,
+            ipAddress: event.ipAddress,
+            city: event.city,
+            state: event.state,
+            country: event.country,
+            latitude: event.latitude,
+            longitude: event.longitude
+        }
+        await tableService.insertOrReplaceEntity('adEvents', entity, function (error, result, response) {
+            if (!error) {
+                res.status(200).send()
+            } else {
+                console.log(error)
+                res.status(500).send(error)
+            }
+        });
     }
 
     function alertInternationalLogins(event) {
