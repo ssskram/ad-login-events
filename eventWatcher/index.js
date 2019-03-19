@@ -40,13 +40,10 @@ module.exports = async (context, req) => {
             longitude: event.longitude
         }
         await tableService.insertOrReplaceEntity('adEvents', entity, function (error, result, response) {
-            if (!error) {
-                res.status(200).send()
-            } else {
+            if (error) {
                 console.log(error)
-                res.status(500).send(error)
-            }
-        });
+            } else return
+        })
     }
 
     function alertInternationalLogins(event) {
