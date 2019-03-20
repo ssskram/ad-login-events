@@ -18,17 +18,14 @@ module.exports = async (context, req) => {
     for (const event in events) {
         await deleteEntity(events[event])
     }
-    
-    context.log(events.length)
+
     // delete em all
     async function deleteEntity(event) {
         await new Promise(async function (resolve, reject) {
             await tableService.deleteEntity('adEvents', event, (error, result, response) => {
                 if (!error) {
-                    context.log('success')
                     resolve(result)
                 } else {
-                    context.log('error')
                     reject(error)
                 }
             })
