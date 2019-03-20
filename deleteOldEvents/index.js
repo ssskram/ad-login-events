@@ -1,13 +1,11 @@
 
 const fetch = require('node-fetch')
-const moment = require('moment')
 const azure = require('azure-storage')
 const tableService = azure.createTableService()
-const tz = require('moment-timezone')
 global.Headers = fetch.Headers
 
 module.exports = async (context, req) => {
-
+    
     // get all events where timestamp is older than 48 hours
     const response = await fetch("https://az-table.azurewebsites.us/activeDirectory/toDelete", {
         method: 'get',
@@ -20,15 +18,17 @@ module.exports = async (context, req) => {
     for (const event in events) {
         await deleteEntity(events[event])
     }
-
+    
+    context.log(events.length)
     // delete em all
     async function deleteEntity(event) {
         await new Promise(async function (resolve, reject) {
             await tableService.deleteEntity('adEvents', event, (error, result, response) => {
                 if (!error) {
+                    context.log('success')
                     resolve(result)
                 } else {
-                    console.log(error)
+                    context.log('error')
                     reject(error)
                 }
             })
