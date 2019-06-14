@@ -15,7 +15,7 @@ No auth, only timer jobs
 ## Running Locally
 
 ### Prerequisites
-
+* [.Net Core](https://dotnet.microsoft.com/download) - BaaS execution environment
 * [Node.js](https://nodejs.org) - JS runtime
 * local.settings.json - See local.settings.json.example for all required secrets
 
