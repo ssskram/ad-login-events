@@ -23,6 +23,8 @@ No auth, only timer jobs
 ```
 git clone https://github.com/CityofPittsburgh/ad-login-events
 cd ad-login-events
+func extensions install
+func host start
 ```
 
 ## Deployment
